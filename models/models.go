@@ -7,6 +7,7 @@ import (
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 )
 
 var db *gorm.DB
@@ -19,8 +20,8 @@ type Model struct {
 
 func init() {
 	var (
-		err                          error
-		dbName, user, password, host string
+		err                                       error
+		dbName, user, password, host, tablePrefix string
 	)
 	sec, err := setting.Cfg.GetSection("database")
 	if err != nil {
@@ -31,10 +32,14 @@ func init() {
 	user = sec.Key("USER").String()
 	password = sec.Key("PASSWORD").String()
 	host = sec.Key("HOST").String()
-	// tablePrefix = sec.Key("TABLE_PREFIX").String()
+	tablePrefix = sec.Key("TABLE_PREFIX").String()
 	// postgres://postgres:postgrespw@postgres:5432
 	dsn := fmt.Sprintf("host=localhost user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai", user, password, dbName, host)
-	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			TablePrefix: tablePrefix,
+		},
+	})
 	if err != nil {
 		log.Println(err)
 	}
