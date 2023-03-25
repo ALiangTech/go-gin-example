@@ -28,8 +28,9 @@ func GetArticles(pageNum int, pageSize int, maps interface{}) (articles []Articl
 
 // 获取单个文章
 func GetArticle(id int) (article Article) {
-	// db.Where("article_id", id).First(&article)
-	// db.Model(&article)
+	db.Where("article_id", id).First(&article)
+	db.Model(&article)
+	return
 }
 
 // 编辑文章
@@ -56,4 +57,5 @@ func AddArticle(data map[string]interface{}) bool {
 
 func DeleteArticle(id int) bool {
 	db.Where("id = ?", id).Delete(Article{})
+	return true
 }
