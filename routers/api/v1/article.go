@@ -51,7 +51,7 @@ func GetArticles(ctx *gin.Context) {
 	var state int = -1
 
 	if arg := ctx.Query("state"); arg != "" {
-		state = com.StrTo(state).MustInt()
+		state = com.StrTo(rune(state)).MustInt()
 		maps["state"] = state
 
 		valid.Range(state, 0, 1, "state").Message("状态只允许0或1 ")
@@ -96,7 +96,7 @@ func AddArticle(ctx *gin.Context) {
 	valid.Range(state, 0, 1, "state").Message("状态只运行0或q")
 	code := e.INVALID_PARAMS
 	if !valid.HasErrors() {
-		if models.ExistArticleByID(tagId) {
+		if models.ExistTagById(tagId) {
 			data := make(map[string]interface{})
 			data["tag_id"] = tagId
 			data["title"] = title

@@ -37,7 +37,7 @@ func AddTag(name string, state int, createdBy string) bool {
 
 func ExistTagById(tag_id int) bool {
 	var tag Tag
-	db.Select("tag_id").Where("id = ?", tag_id).Find(&tag)
+	db.Select("tag_id").Where("tag_id = ?", tag_id).Find(&tag)
 	return tag.TagId > 0
 }
 
