@@ -155,7 +155,7 @@ func EditArticle(ctx *gin.Context) {
 				if content != "" {
 					data["content"] = content
 				}
-				data["modifiedBy"] = modifiedBy
+				data["modified_by"] = modifiedBy
 				models.EditArticle(id, data)
 				code = e.SUCCESS
 			} else {

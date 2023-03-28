@@ -22,7 +22,7 @@ func GetArticlesTotal(maps interface{}) (count int64) {
 }
 
 func GetArticles(pageNum int, pageSize int, maps interface{}) (articles []Articles) {
-	db.Preload("Tag").Where(maps).Offset(pageNum).Limit(pageSize).Find(&articles)
+	db.Find(&articles)
 	return
 }
 
@@ -36,7 +36,7 @@ func GetArticle(id int) (article Articles) {
 // 编辑文章
 
 func EditArticle(id int, data interface{}) bool {
-	db.Model(&Articles{}).Where("id = ?", id).Save(data)
+	db.Model(&Articles{}).Where("article_id = ?", id).Save(data)
 	return true
 }
 
@@ -56,6 +56,6 @@ func AddArticle(data map[string]interface{}) bool {
 // 删除文章
 
 func DeleteArticle(id int) bool {
-	db.Where("id = ?", id).Delete(Articles{})
+	db.Where("article_id = ?", id).Delete(Articles{})
 	return true
 }
